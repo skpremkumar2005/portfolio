@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Developer Portfolio</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-color:#e38528;
+			color: #fff;
+			overflow: hidden;
+		}
+		canvas {
+			
+			
+			display: block;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+		.title {
+			font-size: 4rem;
+			margin-bottom: 2rem;
+			text-align: center;
+			animation: fade-in 2s ease-in-out forwards;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+		}
+        .start {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  padding: 10px 30px;
+  font-size: 20px;
+  background-color: #2196f3;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 20%;
+}
+
+.start:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease-out, height 0.5s ease-out;
+}
+a{
+    text-decoration-line: none;
+}
+.about{
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    justify-content: end;
+
+}
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+.starte:hover:before {
+  width: 500px;
+  height: 500px;
+}
+
+		@keyframes fade-in {
+			from {
+				opacity: 0;
+				transform: translateY(-50px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+    <div class="about" >
+        <img src="about.jpg" alt="about-me">
+       
+    </div>
+	<div class="container">
+		<h1 class="title">hello</h1>
+        <h1 class="title">Welcome</h1>
+		<p>Frontend Web Developer</p>
+        <button class="start"> <a href="index1.html">Visit</a></button>
+
+	</div>
+	<script>
+		// Create the canvas element
+		const canvas = document.getElementById('canvas');
+		const ctx = canvas.getContext('2d');
+
+		// Set the canvas dimensions
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		// Create a particle object
+		class Particle {
+			constructor() {
+				this.x = Math.random() * canvas.width;
+				this.y = Math.random() * canvas.height;
+				this.radius = Math.random() * 5 + 2;
+				this.color = '#fff';
+				this.speed = Math.random() * 3 + 1;
+				this.directionX = Math.random() * 2 - 1;
+				this.directionY = Math.random() * 2 - 1;
+			}
+
+			// Draw the particle on the canvas
+			draw() {
+				ctx.beginPath();
+				ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+				ctx.fillStyle = this.color;
+				ctx.fill();
+				ctx.closePath();
+			}
+
+			// Update the particle's position
+			update() {
+				if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+					this.directionX = -this.directionX;
+				}
+				if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+					this.directionY = -this.directionY;
+				}
+				this.x += this.directionX * this.speed;
+				this.y += this.directionY * this.speed;
+			}
+		}
+
+		// Create an array of particles
+		const particles = [];
+		for (let i = 0; i < 100; i++) {
+			particles.push(new Particle());
+		}
+
+		// Animate the particles
+		function animate() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			particles.forEach((particle) => {
+				particle.draw();
+				particle.update();
+			});
+			requestAnimationFrame(animate);
+		}
+		animate();
+	</script>
+</body>
+</html>
